@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRIPLY Layout</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #001f3f;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            padding: 100px;
+            margin-top: 10px;
+            /* Reduced top margin */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .left-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+        }
+
+        .image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .heading {
+            color: #fff;
+            font-size: 48px;
+            margin-left: 15px;
+        }
+
+        .menu-button {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .menu-button div {
+            height: 4px;
+            background-color: #fff;
+            border-radius: 2px;
+        }
+
+        .menu {
+            display: none;
+            position: absolute;
+            top: 120px;
+            right: 100px;
+            background-color: #fff;
+            color: #001f3f;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu a {
+            display: block;
+            color: #001f3f;
+            text-decoration: none;
+            margin: 5px 0;
+        }
+
+        .menu a:hover {
+            text-decoration: underline;
+        }
+
+        /* Updated styles for the quotes */
+        .quotes {
+            color: white;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: larger;
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: capitalize;
+            line-height: 1.6;
+            text-align: center;
+            margin: 0;
+            /* Removed extra margin to reduce space */
+        }
+
+        .quotes2 {
+            font-size: 30px;
+            margin-top: 10px;
+            /* Adjusted top margin to remove space before the button */
+        }
+
+        .quotes3 {
+            margin-top: 10px;
+            /* Reduced margin-top to eliminate space */
+            color: rgb(216, 136, 30);
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 10px;
+            /* Reduced margin-top to remove space above the button */
+        }
+
+        #myButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #myButton:hover {
+            background-color: #0056b3;
+        }
+
+        /* Photo image settings */
+        .photo {
+            width: 100%;
+            height: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+    </style>
+    </style>
+
+    </style>
+    <script>
+        function toggleMenu() {
+            const menu = document.querySelector('.menu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("myButton").onclick = function () {
+                window.location.href = "lgin.html"; // Change this to your desired page's file name
+            };
+        });
+
+
+    </script>
+</head>
+
+<body>
+    <script src="code.js"></script>
+    <div class="container">
+        <div class="left-section">
+            <div class="image">
+                <img src="logo.jpg" alt="logo">
+            </div>
+            <h1 class="heading">TRIPLY</h1>
+        </div>
+        <div class="menu-button" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div class="menu">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+    </div>
+    <div class="photo"> <img src="v.jpg">
+    </div>
+
+    <div class="quotes quotes2">Group travel should be fun, not chaotic!! </div>
+    <div class="quotes">Make your next trip seamless and stress-free.</div>
+
+    <div class="quotes quotes3">Jump into Triply !!</div>
+    <div class="button-container">
+        <button id="myButton">Start Your Journey</button>
+    </div>
+
+
+</body>
+
+</html>

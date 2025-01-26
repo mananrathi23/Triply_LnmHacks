@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Splitter</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+  <div class="container">
+    <h2>Expense Splitter</h2>
+    <div class="group-list">
+      <h3>Groups</h3>
+      <select id="groupSelect" onchange="addGroup()">
+        <option value="">Select a group</option>
+        <option value="family">Family</option>
+        <option value="roommates">Roommates</option>
+        <option value="friends">Friends</option>
+        <option value="colleagues">Colleagues</option>
+        <option value="new">Create New Group</option>
+      </select>
+
+      <div id="newGroupForm" class="new-group-form" style="display: none;">
+        <input type="text" id="newGroupName" placeholder="Enter group name">
+        <div class="member-selection">
+          <h4>Add Members:</h4>
+          <div id="membersList">
+            <div class="member-checkbox">
+              <input type="checkbox" id="member1">
+              <input type="text" placeholder="Member name">
+            </div>
+          </div>
+          <button onclick="addMemberField()">Add Another Member</button>
+          <button onclick="createNewGroup()">Create Group</button>
+        </div>
+      </div>
+
+      <div id="groupList"></div>
+    </div>
+
+    <label for="amount">Enter Total Amount:</label>
+    <input type="number" id="amount" placeholder="Enter amount in ₹" required>
+
+    <div class="tab-container">
+      <div class="tab-buttons">
+        <button class="tab-button active" onclick="openTab('equalSplit')">Equal Split</button>
+        <button class="tab-button" onclick="openTab('percentageSplit')">Percentage Split</button>
+        <button class="tab-button" onclick="openTab('unequalSplit')">Unequal Split</button>
+      </div>
+    </div>
+
+    <div id="equalSplit" class="tab-content active">
+      <button onclick="splitAmount()">Calculate Equal Split</button>
+    </div>
+
+    <div id="percentageSplit" class="tab-content">
+      <div id="percentageShares"></div>
+      <button onclick="calculatePercentageSplit()">Calculate Percentage Split</button>
+    </div>
+
+    <div id="unequalSplit" class="tab-content">
+      <div id="unequalShares"></div>
+      <button onclick="calculateUnequalSplit()">Calculate Unequal Split</button>
+    </div>
+
+    <div class="result" id="result"></div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

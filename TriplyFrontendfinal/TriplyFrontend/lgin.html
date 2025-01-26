@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Include Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="login-form">
+            <h1>Login</h1>
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="john@uxsaints.com" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <div class="extras">
+                    <a href="#">Forgot Password?</a>
+                </div>
+                <button type="submit" class="btn">Login</button>
+            </form>
+            <div class="social-login">
+                <button class="google">Login with G+</button>
+                <button class="facebook">Login with F</button>
+            </div>
+            <div class="signup">
+                <p>Don't have an account? <a href="create.html">Create your account</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Form Submission -->
+    <script>
+        // Handle form submission
+        document.getElementById('loginForm').addEventListener('submit', async function (event) {
+            event.preventDefault(); // Prevent the form from refreshing the page
+
+            // Get the input values
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Create the payload
+            const payload = {
+                email: email,
+                password: password
+            };
+
+            try {
+                // Send POST request to backend
+                const response = await axios.post('http://localhost:8080/api/login', payload);
+
+                // Handle response
+                if (response.data === 'Login Successful') {
+                    alert('Login Successful');
+                    // Redirect to a new page (e.g., dashboard)
+                    window.location.href = 'DASHBOARD/index.html'; // Example redirection
+                } else {
+                    alert('Invalid email or password');
+                }
+            } catch (error) {
+                // Handle errors (e.g., network issues, server errors)
+                console.error(error);
+                alert('An error occurred while logging in. Please try again.');
+            }
+        });
+    </script>
+</body>
+
+</html>

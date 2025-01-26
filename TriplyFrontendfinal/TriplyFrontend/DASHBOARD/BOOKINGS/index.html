@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Your Next Trip</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+
+<!-- Step 1: Add Members -->
+<div class="step" id="step1">
+    <h3>Step 1: Add Members</h3>
+    <form id="step1-form">
+        <div id="members-container">
+            <div class="member" id="member1">
+                <label for="name1">Member 1 Name:</label>
+                <input type="text" id="name1" name="name1" placeholder="Enter name">
+                <label for="mobile1">Member 1 Mobile:</label>
+                <input type="text" id="mobile1" name="mobile1" placeholder="Enter mobile number">
+            </div>
+            <div class="member" id="member2">
+                <label for="name2">Member 2 Name:</label>
+                <input type="text" id="name2" name="name2" placeholder="Enter name">
+                <label for="mobile2">Member 2 Mobile:</label>
+                <input type="text" id="mobile2" name="mobile2" placeholder="Enter mobile number">
+            </div>
+        </div>
+        <button type="button" id="add-member" onclick="addMember()">Add More Members</button>
+
+        <div class="form-group">
+            <label for="group-name">Group Name:</label>
+            <input type="text" id="group-name" name="group-name" placeholder="Enter group name">
+        </div>
+        
+        <button type="button" onclick="proceedToStep2()">Proceed to Step 2</button>
+    </form>
+</div>
+
+<!-- Step 2: Book Tickets -->
+<div class="step" id="step2" style="display:none;">
+    <h3>Step 2: Book Tickets</h3>
+    <form id="step2-form">
+        
+        <div class="form-group">
+            <label for="travel-mode">Travel Mode:</label>
+            <select id="travel-mode" name="travel-mode" required>
+                <option value="train">Train</option>
+                <option value="plane">Plane</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="from-location">From:</label>
+            <input type="text" id="from-location" name="from-location" value="" required readonly>
+        </div>
+
+        <div class="form-group">
+            <label for="to-location">To:</label>
+            <input type="text" id="to-location" name="to-location" value="" required readonly>
+        </div>
+
+        <div class="form-group">
+            <label for="travel-date">Travel Date:</label>
+            <input type="date" id="travel-date" name="travel-date" required readonly>
+        </div>
+
+        <div class="form-group">
+            <label for="num-passengers">Number of Passengers:</label>
+            <input type="number" id="num-passengers" name="num-passengers" min="1" required readonly>
+        </div>
+
+        <div class="form-group">
+            <label for="available-trains">Available Trains:</label>
+            <select id="available-trains" name="available-trains" required>
+            </select>
+        </div>
+
+        <button type="button" onclick="proceedToStep3()" onclick="window.location.href='BOOKINGS/index.html';">Proceed to Step 3</button>
+    </form>
+</div>
+
+<!-- Step 3: Hotel Booking -->
+<div class="step" id="step3" style="display:none;">
+    <h3>Step 3: Hotel Booking</h3>
+    <form id="step3-form">
+        <div class="form-group">
+            <label for="hotel-option">Choose Hotel:</label>
+            <select id="hotel-option" name="hotel-option" required>
+                <option value="airbnb">Airbnb</option>
+                <option value="oyo">OYO</option>
+            </select>
+        </div>
+
+        <button type="submit">Book Hotel</button>
+    </form>
+</div>
+
+</body>
+</html>

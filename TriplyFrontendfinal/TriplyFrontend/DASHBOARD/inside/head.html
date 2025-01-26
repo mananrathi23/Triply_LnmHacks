@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Splitter</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <button class="theme-toggle" onclick="toggleTheme()">Toggle Dark Mode</button>
+  <div class="container">
+    <h2>Expense Splitter</h2>
+    <div class="people-list">
+      <h3>People List</h3>
+      <button onclick="addPerson()">Add Person</button>
+      <div id="peopleList"></div>
+    </div>
+
+    <label for="amount">Enter Total Amount:</label>
+    <input type="number" id="amount" placeholder="Enter amount in ₹" required>
+
+    <div class="tab-container">
+      <div class="tab-buttons">
+        <button class="tab-button active" onclick="openTab('equalSplit')">Equal Split</button>
+        <button class="tab-button" onclick="openTab('percentageSplit')">Percentage Split</button>
+        <button class="tab-button" onclick="openTab('unequalSplit')">Unequal Split</button>
+      </div>
+    </div>
+
+    <div id="equalSplit" class="tab-content active">
+      <button onclick="splitAmount()">Calculate Equal Split</button>
+    </div>
+
+    <div id="percentageSplit" class="tab-content">
+        <div id="percentageShares"></div>
+        <button onclick="calculatePercentageSplit()">Calculate Percentage Split</button>
+        <canvas id="percentageChart" width="400" height="400"></canvas>
+    </div>
+      
+
+    <div id="unequalSplit" class="tab-content">
+      <div id="unequalShares"></div>
+      <button onclick="calculateUnequalSplit()">Calculate Unequal Split</button>
+    </div>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

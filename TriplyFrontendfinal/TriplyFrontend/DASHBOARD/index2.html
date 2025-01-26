@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Your Next Trip</title>
+    <link rel="stylesheet" href="style22.css">
+    <script defer src="script22.js"></script>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="topbar">
+        <button class="back-button" onclick="window.location.href='index.html';">Back to Dashboard</button>
+    </div>
+
+    <div class="container">
+        <!-- Plan Your Next Trip Section -->
+        <h2>Plan Your Next Trip</h2>
+        <form class="trip-form">
+            <div class="form-group">
+                <label for="destination">Destination:</label>
+                <input type="text" id="destination" name="destination" list="destinations" placeholder="Enter destination" required>
+                <datalist id="destinations">
+                    <option value="Paris">
+                    <option value="New York">
+                    <option value="London">
+                    <option value="Tokyo">
+                    <option value="Goa">
+                    <option value="Dubai">
+                    <option value="Amsterdam">
+                    <option value="Uttrakhand">
+                    <option value="Dehradun">
+                </datalist>
+            </div>
+
+            <div class="form-group">
+                <label for="start-from">Start From:</label>
+                <input type="text" id="start-from" name="start-from" placeholder="Enter start point" required>
+            </div>
+
+            <div class="form-group">
+                <label for="transport">Mode of Transport:</label>
+                <select id="transport" name="transport" required>
+                    <option value="">Select transport</option>
+                    <option value="Plane">Plane</option>
+                    <option value="Train">Train</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="start-date">Start Date:</label>
+                <input type="date" id="start-date" name="start-date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="end-date">End Date:</label>
+                <input type="date" id="end-date" name="end-date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="num-people">Number of People:</label>
+                <input type="number" id="num-people" name="num-people" min="1" required>
+            </div>
+
+            <button type="submit">Plan Trip</button>
+        </form>
+
+        <!-- View Estimated Price Section -->
+        <div class="estimated-price">
+            <button id="view-price-btn">View Estimated Price</button>
+            <div id="premium-message" class="premium-message">
+                <p>To view the estimated price, please subscribe to our premium plan.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

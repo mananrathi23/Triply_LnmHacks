@@ -1,0 +1,52 @@
+/* Reuse existing styles with some adjustments */
+
+/* Container for the create account page */
+.form-container {
+    background: rgba(255, 255, 255, 0.2); /* Transparent background */
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    color: #fff;
+    width: 350px;
+  }
+  
+  h1 {
+    margin-bottom: 20px;
+  }
+  
+  .input-group {
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  
+  .input-group label {
+    font-size: 14px;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+  }
+  
+  .btn {
+    background-color: #f1c40f;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+    width: 100%;
+  }
+  
+  .btn:hover {
+    background-color: #e2b007;
+  }
+  

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Splitter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px 0;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .shares-container {
+      display: none;
+      margin-top: 10px;
+    }
+    .share-input {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 5px 0;
+    }
+    .share-input input {
+      width: 45%;
+    }
+    .people-list {
+      margin: 10px 0;
+    }
+    .person-item {
+      display: flex;
+      align-items: center;
+      margin: 5px 0;
+    }
+    .person-item input[type="checkbox"] {
+      width: auto;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Expense Splitter</h2>
+    <div class="people-list">
+      <h3>People List</h3>
+      <button onclick="addPerson()">Add Person</button>
+      <div id="peopleList"></div>
+    </div>
+
+    <label for="amount">Enter Total Amount:</label>
+    <input type="number" id="amount" placeholder="Enter amount in ₹" required>
+
+    <div>
+      <button onclick="splitAmount()">Split Equally</button>
+      <button onclick="showPercentageSplit()">Split by Percentage</button>
+      <button onclick="showUnequalSplit()">Split Unequally</button>
+    </div>
+
+    <div id="percentageInputs" class="shares-container">
+      <div id="percentageShares"></div>
+      <button onclick="calculatePercentageSplit()">Calculate Percentage Split</button>
+    </div>
+
+    <div id="unequalInputs" class="shares-container">
+      <div id="unequalShares"></div>
+      <button onclick="calculateUnequalSplit()">Calculate Unequal Split</button>
+    </div>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    let peopleCount = 0;
+    
+    function addPerson() {
+      peopleCount++;
+      const peopleList = document.getElementById("peopleList");
+      const personDiv = document.createElement("div");
+      personDiv.className = "person-item";
+      personDiv.innerHTML = `
+        <input type="checkbox" id="person${peopleCount}" checked>
+        <input type="text" placeholder="Enter name" id="name${peopleCount}">
+        <button onclick="removePerson(this)">Remove</button>
+      `;
+      peopleList.appendChild(personDiv);
+    }
+
+    function removePerson(button) {
+      button.parentElement.remove();
+    }
+
+    function getSelectedPeople() {
+      const people = [];
+      document.querySelectorAll('.person-item').forEach((item, index) => {
+        const checkbox = item.querySelector('input[type="checkbox"]');
+        const nameInput = item.querySelector('input[type="text"]');
+        if (checkbox.checked) {
+          people.push({
+            id: index + 1,
+            name: nameInput.value || `Person ${index + 1}`
+          });
+        }
+      });
+      return people;
+    }
+
+    function splitAmount() {
+      const amount = parseFloat(document.getElementById("amount").value);
+      const selectedPeople = getSelectedPeople();
+      const resultDiv = document.getElementById("result");
+
+      if (isNaN(amount) || selectedPeople.length === 0) {
+        resultDiv.innerHTML = "<p style='color: red;'>Please enter valid amount and select at least one person!</p>";
+        return;
+      }
+
+      const splitAmount = (amount / selectedPeople.length).toFixed(2);
+      let result = "<p>Equal split:</p>";
+      selectedPeople.forEach(person => {
+        result += `<p>${person.name}: <strong>₹${splitAmount}</strong></p>`;
+      });
+      resultDiv.innerHTML = result;
+    }
+
+    function showPercentageSplit() {
+      const selectedPeople = getSelectedPeople();
+      if (selectedPeople.length === 0) {
+        alert("Please add and select at least one person!");
+        return;
+      }
+
+      const container = document.getElementById("percentageShares");
+      container.innerHTML = "";
+      document.getElementById("percentageInputs").style.display = "block";
+      document.getElementById("unequalInputs").style.display = "none";
+
+      selectedPeople.forEach(person => {
+        container.innerHTML += `
+          <div class="share-input">
+            <input type="number" id="percentage${person.id}" placeholder="Percentage for ${person.name}" min="0" max="100">
+            <span>%</span>
+          </div>`;
+      });
+    }
+
+    function showUnequalSplit() {
+      const selectedPeople = getSelectedPeople();
+      if (selectedPeople.length === 0) {
+        alert("Please add and select at least one person!");
+        return;
+      }
+
+      const container = document.getElementById("unequalShares");
+      container.innerHTML = "";
+      document.getElementById("unequalInputs").style.display = "block";
+      document.getElementById("percentageInputs").style.display = "none";
+
+      selectedPeople.forEach(person => {
+        container.innerHTML += `
+          <div class="share-input">
+            <input type="number" id="share${person.id}" placeholder="Amount for ${person.name}">
+          </div>`;
+      });
+    }
+
+    function calculatePercentageSplit() {
+      const amount = parseFloat(document.getElementById("amount").value);
+      const selectedPeople = getSelectedPeople();
+      const resultDiv = document.getElementById("result");
+
+      if (isNaN(amount) || amount <= 0) {
+        resultDiv.innerHTML = "<p style='color: red;'>Please enter a valid amount!</p>";
+        return;
+      }
+
+      let totalPercentage = 0;
+      const shares = [];
+
+      selectedPeople.forEach(person => {
+        const percentage = parseFloat(document.getElementById(`percentage${person.id}`).value);
+        if (isNaN(percentage) || percentage < 0) {
+          resultDiv.innerHTML = "<p style='color: red;'>Please enter valid percentages!</p>";
+          return;
+        }
+        totalPercentage += percentage;
+        shares.push({ 
+          name: person.name, 
+          amount: (amount * percentage / 100).toFixed(2) 
+        });
+      });
+
+      if (Math.abs(totalPercentage - 100) > 0.01) {
+        resultDiv.innerHTML = "<p style='color: red;'>Percentages must sum to 100!</p>";
+        return;
+      }
+
+      let result = "<p>Split by percentage:</p>";
+      shares.forEach(share => {
+        result += `<p>${share.name}: <strong>₹${share.amount}</strong></p>`;
+      });
+      resultDiv.innerHTML = result;
+    }
+
+    function calculateUnequalSplit() {
+      const amount = parseFloat(document.getElementById("amount").value);
+      const selectedPeople = getSelectedPeople();
+      const resultDiv = document.getElementById("result");
+
+      if (isNaN(amount) || amount <= 0) {
+        resultDiv.innerHTML = "<p style='color: red;'>Please enter a valid amount!</p>";
+        return;
+      }
+
+      let totalShares = 0;
+      const shares = [];
+
+      selectedPeople.forEach(person => {
+        const share = parseFloat(document.getElementById(`share${person.id}`).value);
+        if (isNaN(share) || share < 0) {
+          resultDiv.innerHTML = "<p style='color: red;'>Please enter valid amounts!</p>";
+          return;
+        }
+        totalShares += share;
+        shares.push({ 
+          name: person.name, 
+          amount: share.toFixed(2) 
+        });
+      });
+
+      if (Math.abs(totalShares - amount) > 0.01) {
+        resultDiv.innerHTML = "<p style='color: red;'>Sum of shares must equal total amount!</p>";
+        return;
+      }
+
+      let result = "<p>Unequal split:</p>";
+      shares.forEach(share => {
+        result += `<p>${share.name}: <strong>₹${share.amount}</strong></p>`;
+      });
+      resultDiv.innerHTML = result;
+    }
+
+    // Add initial person
+    addPerson();
+  </script>
+</body>
+</html>

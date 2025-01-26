@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triply Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="img.png" alt="Company Logo">
+                <span>Triply</span>
+            </div>
+            <nav class="menu">
+                <a href="#" class="menu-item">Dashboard</a>
+                
+                <div class="submenu">
+                    <button class="submenu-toggle" onclick="window.location.href='BOOKINGS/index.html';">Trips</button>
+                    
+                </div>
+                
+                <a href="inside/start2.html" class="menu-item">Expense Splitter</a>
+                <a href="#" class="menu-item">Chat Rooms</a>
+                <a href="#" class="menu-item">Files & Documentation</a>
+                <div class="submenu1">
+                    <button class="submenu-toggle" onclick="window.location.href='Itinerary/Itinerary/index.html';">Itinery</button>
+                    
+                </div>
+            </nav>
+
+            <!-- Bottom Section -->
+            <div class="sidebar-bottom">
+                <a href="#" class="menu-item">Help & Support</a>
+                <a href="#" class="menu-item">Settings</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="quick-actions">
+                    <button class="add-button" onclick="window.location.href='index2.html';">Plan Your Next Trip</button>
+                </div>
+                
+                <div class="user-profile">
+                    <img src="img.png" alt="Profile">
+                    <span class="dropdown">Manan Rathi</span>
+                </div>
+            </header>
+
+            <!-- Centered Boxes -->
+            <section class="trip-section">
+                <!-- Current Trip -->
+                <div class="trip-box">
+                    <h2>Current Trip</h2>
+                    <img src="manali.jpg" alt="Current Trip Image" class="trip-image">
+                    <button class="view-button"onclick="window.location.href='track your trip/index3.html';">Track your Trip</button>
+                </div>
+
+                <!-- Past Trip -->
+                <div class="trip-box">
+                    <h2>Past Trips</h2>
+                    <ul class="trip-list">
+                        <li>Paris</li>
+                        <li>Uttarakhand</li>
+                        <li>Goa</li>
+                        <li>Ahmedabad</li>
+                        <li>Dehradun</li>
+                    </ul>
+                    <button class="view-button">View</button>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

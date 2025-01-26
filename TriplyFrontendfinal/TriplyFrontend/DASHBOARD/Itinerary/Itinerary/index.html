@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<!-- To be added in "Plan your next trip" -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Itinerary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #929ca0;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #02000c;
+        }
+
+        h2 {
+            color: #061e40;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 1rem;
+            display: block;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #061e40;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 0.7rem;
+            width: 48%;
+            margin: 0.5rem 1%;
+            display: inline-block;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .day {
+            border: 1px solid #ddd;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem 0;
+            background-color: #333;
+            color: white;
+            margin-top: 2rem;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 1rem 0;
+        }
+    </style>
+    <script>
+        let days = [];
+
+        function addDay() {
+            const dayTitle = document.getElementById('day-title').value;
+            const activities = document.getElementById('activities').value;
+
+            if (dayTitle && activities) {
+                days.push({
+                    title: dayTitle,
+                    activities: activities.split('\n').map(activity => ({ detail: activity }))
+                });
+
+                document.getElementById('day-title').value = '';
+                document.getElementById('activities').value = '';
+
+                displayDays();
+            } else {
+                alert('Please fill out all fields.');
+            }
+        }
+
+        function displayDays() {
+            const daysContainer = document.getElementById('days-container');
+            daysContainer.innerHTML = '';
+
+            days.forEach((day, index) => {
+                const dayDiv = document.createElement('div');
+                dayDiv.className = 'day';
+                dayDiv.innerHTML = `
+                    <h3>${day.title}</h3>
+                    <ul>
+                        ${day.activities.map(activity => `<li>${activity.detail}</li>`).join('')}
+                    </ul>
+                    <button onclick="removeDay(${index})">Remove</button>
+                `;
+                daysContainer.appendChild(dayDiv);
+            });
+        }
+
+        function removeDay(index) {
+            days.splice(index, 1);
+            displayDays();
+        }
+
+        function saveItinerary() {
+            if (days.length === 0) {
+                alert('Add at least one day to your itinerary.');
+                return;
+            }
+
+            const itinerary = {
+                title: document.getElementById('itinerary-title').value,
+                days: days
+            };
+
+            console.log('Saved Itinerary:', itinerary);
+            alert('Itinerary saved! Check the console for details.');
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Create Your Travel Itinerary</h1>
+    </header>
+
+    <div class="container">
+        <label for="itinerary-title">Itinerary Title</label>
+        <input type="text" id="itinerary-title" placeholder="Enter your itinerary title">
+
+        <h2>Add a Day</h2>
+
+        <label for="day-title">Day Title</label>
+        <input type="text" id="day-title" placeholder="e.g., Day 1: Arrival">
+
+        <label for="activities">Activities (one per line)</label>
+        <textarea id="activities" rows="5" placeholder="e.g., Flight arrives at 10 AM\nCheck into hotel\nDinner at local restaurant"></textarea>
+
+        <div class="button-container">
+            <button onclick="addDay()">Add Day</button>
+            <button onclick="saveItinerary()">Save Itinerary</button>
+        </div>
+
+        <div id="days-container"></div>
+    </div>
+
+    <footer>
+        <p>Plan your adventure with ease!</p>
+    </footer>
+</body>
+</html>

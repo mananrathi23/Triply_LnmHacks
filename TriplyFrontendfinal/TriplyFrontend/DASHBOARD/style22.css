@@ -1,0 +1,134 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+}
+
+.topbar {
+    background-color: #3498db;
+    width: 100%;
+    padding: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back-button {
+    background-color: #2980b9;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2em;
+    margin-left: 20px;
+}
+
+.back-button:hover {
+    background-color: #1f618d;
+}
+
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 700px;
+    margin-top: 20px;
+}
+
+h2 {
+    color: #3498db;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.trip-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    color: #34495e;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+select {
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #bdc3c7;
+    width: 100%;
+}
+
+button[type="submit"] {
+    background-color: #2980b9;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+}
+
+button[type="submit"]:hover {
+    background-color: #1f618d;
+}
+
+.estimated-price {
+    margin-top: 30px;
+    text-align: center;
+    position: relative;
+    backdrop-filter: blur(8px);
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 8px;
+}
+
+#view-price-btn {
+    background-color: #2980b9;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+}
+
+#view-price-btn:hover {
+    background-color: #1f618d;
+}
+
+.premium-message {
+    display: none;
+    margin-top: 10px;
+    font-size: 1.1em;
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+.show-premium-message {
+    backdrop-filter: none;
+    background: rgba(255, 255, 255, 1);
+}
+
+.show-premium-message #premium-message {
+    display: block;
+}

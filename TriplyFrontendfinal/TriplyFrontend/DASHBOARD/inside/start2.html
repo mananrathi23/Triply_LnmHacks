@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Splitter</title>
+  <style>
+    :root {
+      --bg-color: #082246;
+      --text-color: #082246;
+      --container-bg: #ffffff;
+      --container-border: #ccc;
+      --button-bg: #007BFF;
+      --button-hover: #0056b3;
+      --result-bg: #f9f9f9;
+      --tab-bg: #f0f0f0;
+      --tab-active-bg: #ffffff;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #082246;
+      --text-color: #ffffff;
+      --container-bg: #2d2d2d;
+      --container-border: #444;
+      --button-bg: #0056b3;
+      --button-hover: #003d82;
+      --result-bg: #363636;
+      --tab-bg: #363636;
+      --tab-active-bg: #2d2d2d;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: all 0.3s ease;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      padding: 5px 10px;
+      background-color: var(--button-bg);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.8em;
+      width: auto;
+      z-index: 1000;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid var(--container-border);
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background-color: var(--container-bg);
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid var(--container-border);
+      border-radius: 5px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: var(--button-bg);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px 0;
+    }
+
+    button:hover {
+      background-color: var(--button-hover);
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: var(--result-bg);
+      border: 1px solid var(--container-border);
+      border-radius: 5px;
+    }
+
+    .shares-container {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .share-input {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 5px 0;
+    }
+
+    .share-input input {
+      width: 45%;
+    }
+
+    .group-list {
+      margin: 10px 0;
+    }
+
+    .group-item {
+      display: flex;
+      align-items: flex-start;
+      margin: 10px 0;
+      padding: 15px;
+      border: 1px solid var(--container-border);
+      border-radius: 5px;
+    }
+
+    .group-info {
+      flex: 1;
+    }
+
+    .group-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .group-title h4 {
+      margin: 0;
+    }
+
+    .remove-btn {
+      padding: 5px 10px;
+      font-size: 0.8em;
+      width: auto;
+      margin-left: 10px;
+    }
+
+    .member-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .member-item {
+      display: flex;
+      align-items: center;
+      background: var(--result-bg);
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 0.9em;
+    }
+
+    .member-avatar {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      margin-right: 8px;
+      object-fit: cover;
+    }
+
+    .tab-container {
+      border-bottom: 1px solid var(--container-border);
+      margin-bottom: 20px;
+    }
+
+    .tab-buttons {
+      display: flex;
+      gap: 5px;
+    }
+
+    .tab-button {
+      padding: 10px 20px;
+      background: var(--tab-bg);
+      border: 1px solid var(--container-border);
+      border-bottom: none;
+      border-radius: 5px 5px 0 0;
+      cursor: pointer;
+      margin-bottom: -1px;
+      color: var(--text-color);
+    }
+
+    .tab-button.active {
+      background: var(--tab-active-bg);
+      border-bottom: 1px solid var(--tab-active-bg);
+    }
+
+    .tab-content {
+      display: none;
+      padding: 20px 0;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .new-group-form {
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid var(--container-border);
+      border-radius: 5px;
+    }
+
+    .member-selection {
+      margin: 10px 0;
+    }
+
+    .member-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 5px 0;
+    }
+
+    .member-checkbox input[type="checkbox"] {
+      width: auto;
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+  <div class="container">
+    <h2>Expense Splitter</h2>
+    <div class="group-list">
+      <h3>Groups</h3>
+      <select id="groupSelect" onchange="addGroup()">
+        <option value="">Select a group</option>
+        <option value="family">Family</option>
+        <option value="roommates">Roommates</option>
+        <option value="friends">Friends</option>
+        <option value="colleagues">Colleagues</option>
+        <option value="new">Create New Group</option>
+      </select>
+
+      <div id="newGroupForm" class="new-group-form" style="display: none;">
+        <input type="text" id="newGroupName" placeholder="Enter group name">
+        <div class="member-selection">
+          <h4>Add Members:</h4>
+          <div id="membersList">
+            <div class="member-checkbox">
+              <input type="checkbox" id="member1">
+              <input type="text" placeholder="Member name">
+            </div>
+          </div>
+          <button onclick="addMemberField()">Add Another Member</button>
+          <button onclick="createNewGroup()">Create Group</button>
+        </div>
+      </div>
+
+      <div id="groupList"></div>
+    </div>
+
+    <label for="amount">Enter Total Amount:</label>
+    <input type="number" id="amount" placeholder="Enter amount in ₹" required>
+
+    <div class="tab-container">
+      <div class="tab-buttons">
+        <button class="tab-button active" onclick="openTab('equalSplit')">Equal Split</button>
+        <button class="tab-button" onclick="openTab('percentageSplit')">Percentage Split</button>
+        <button class="tab-button" onclick="openTab('unequalSplit')">Unequal Split</button>
+      </div>
+    </div>
+
+    <div id="equalSplit" class="tab-content active">
+      <button onclick="splitAmount()">Calculate Equal Split</button>
+    </div>
+
+    <div id="percentageSplit" class="tab-content">
+      <div id="percentageShares"></div>
+      <button onclick="calculatePercentageSplit()">Calculate Percentage Split</button>
+    </div>
+
+    <div id="unequalSplit" class="tab-content">
+      <div id="unequalShares"></div>
+      <button onclick="calculateUnequalSplit()">Calculate Unequal Split</button>
+    </div>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const groups = {
+      family: {
+        name: 'Family',
+        members: [
+          { name: 'Dad', img: 'https://ui-avatars.com/api/?name=Dad' },
+          { name: 'Mom', img: 'https://ui-avatars.com/api/?name=Mom' },
+          { name: 'Brother', img: 'https://ui-avatars.com/api/?name=Brother' },
+          { name: 'Sister', img: 'https://ui-avatars.com/api/?name=Sister' }
+        ],
+        count: 4
+      },
+      roommates: {
+        name: 'Roommates',
+        members: [
+          { name: 'John', img: 'https://ui-avatars.com/api/?name=John' },
+          { name: 'Mike', img: 'https://ui-avatars.com/api/?name=Mike' },
+          { name: 'Sarah', img: 'https://ui-avatars.com/api/?name=Sarah' }
+        ],
+        count: 3
+      },
+      friends: {
+        name: 'Friends',
+        members: [
+          { name: 'Alex', img: 'https://ui-avatars.com/api/?name=Alex' },
+          { name: 'Emma', img: 'https://ui-avatars.com/api/?name=Emma' },
+          { name: 'James', img: 'https://ui-avatars.com/api/?name=James' },
+          { name: 'Lisa', img: 'https://ui-avatars.com/api/?name=Lisa' }
+        ],
+        count: 4
+      },
+      colleagues: {
+        name: 'Colleagues',
+        members: [
+          { name: 'Amy', img: 'https://ui-avatars.com/api/?name=Amy' },
+          { name: 'David', img: 'https://ui-avatars.com/api/?name=David' },
+          { name: 'Jane', img: 'https://ui-avatars.com/api/?name=Jane' },
+          { name: 'Mark', img: 'https://ui-avatars.com/api/?name=Mark' },
+          { name: 'Peter', img: 'https://ui-avatars.com/api/?name=Peter' }
+        ],
+        count: 5
+      }
+    };
+
+    let selectedGroups = new Set();
+    
+    function toggleTheme() {
+      document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', document.body.dataset.theme);
+    }
+
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.dataset.theme = savedTheme;
+    
+    function addGroup() {
+      const select = document.getElementById("groupSelect");
+      const groupId = select.value;
+      
+      if (groupId === "new") {
+        select.value = "";
+        document.getElementById("newGroupForm").style.display = "block";
+        return;
+      }
+      
+      if (!groupId || selectedGroups.has(groupId)) return;
+      
+      const group = groups[groupId];
+      selectedGroups.add(groupId);
+      
+      const groupList = document.getElementById("groupList");
+      const groupDiv = document.createElement("div");
+      groupDiv.className = "group-item";
+      groupDiv.innerHTML = `
+        <div class="group-info">
+          <div class="group-header">
+            <div class="group-title">
+              <h4>${group.name} (${group.count} members)</h4>
+            </div>
+            <button class="remove-btn" onclick="removeGroup(this, '${groupId}')">✕</button>
+          </div>
+          <div class="member-list">
+            ${group.members.map(member => `
+              <div class="member-item">
+                <img src="${member.img}" alt="${member.name}" class="member-avatar">
+                <span>${member.name}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+      groupList.appendChild(groupDiv);
+      select.value = "";
+      select.disabled = selectedGroups.size > 0;
+    }
+
+    function addMemberField() {
+      const membersList = document.getElementById("membersList");
+      const newMemberDiv = document.createElement("div");
+      newMemberDiv.className = "member-checkbox";
+      newMemberDiv.innerHTML = `
+        <input type="checkbox" id="member${membersList.children.length + 1}">
+        <input type="text" placeholder="Member name">
+      `;
+      membersList.appendChild(newMemberDiv);
+    }
+
+    function createNewGroup() {
+      const groupName = document.getElementById("newGroupName").value.trim();
+      if (!groupName) {
+        alert("Please enter a group name");
+        return;
+      }
+
+      const memberDivs = document.querySelectorAll("#membersList .member-checkbox");
+      const members = [];
+      
+      memberDivs.forEach(div => {
+        const checkbox = div.querySelector('input[type="checkbox"]');
+        const nameInput = div.querySelector('input[type="text"]');
+        if (checkbox.checked && nameInput.value.trim()) {
+          members.push({
+            name: nameInput.value.trim(),
+            img: `https://ui-avatars.com/api/?name=${encodeURIComponent(nameInput.value.trim())}`
+          });
+        }
+      });
+
+      if (members.length === 0) {
+        alert("Please select at least one member");
+        return;
+      }
+
+      const groupId = groupName.toLowerCase().replace(/\s+/g, '_');
+      groups[groupId] = {
+        name: groupName,
+        members: members,
+        count: members.length
+      };
+
+      // Add the new group to the select options
+      const select = document.getElementById("groupSelect");
+      const option = document.createElement("option");
+      option.value = groupId;
+      option.textContent = groupName;
+      select.insertBefore(option, select.lastElementChild);
+
+      // Clear and hide the form
+      document.getElementById("newGroupForm").style.display = "none";
+      document.getElementById("newGroupName").value = "";
+      document.getElementById("membersList").innerHTML = `
+        <div class="member-checkbox">
+          <input type="checkbox" id="member1">
+          <input type="text" placeholder="Member name">
+        </div>
+      `;
+
+      // Add the new group to the list
+      selectedGroups.add(groupId);
+      const group = groups[groupId];
+      
+      const groupList = document.getElementById("groupList");
+      const groupDiv = document.createElement("div");
+      groupDiv.className = "group-item";
+      groupDiv.innerHTML = `
+        <div class="group-info">
+          <div class="group-header">
+            <div class="group-title">
+              <h4>${group.name} (${group.count} members)</h4>
+            </div>
+            <button class="remove-btn" onclick="removeGroup(this, '${groupId}')">✕</button>
+          </div>
+          <div class="member-list">
+            ${group.members.map(member => `
+              <div class="member-item">
+                <img src="${member.img}" alt="${member.name}" class="member-avatar">
+                <span>${member.name}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+      groupList.appendChild(groupDiv);
+      select.disabled = true;
+    }
+
+    function removeGroup(button, groupId) {
+      selectedGroups.delete(groupId);
+      button.closest('.group-item').remove();
+      const select = document.getElementById("groupSelect");
+      select.disabled = selectedGroups.size > 0;
+    }
+
+    function getSelectedPeople() {
+      const people = [];
+      selectedGroups.forEach(groupId => {
+        const group = groups[groupId];
+        group.members.forEach(member => {
+          people.push({
+            id: people.length + 1,
+            name: member.name
+          });
+        });
+      });
+      return people;
+    }
+
+    function openTab(tabName) {
+      const tabContents = document.getElementsByClassName('tab-content');
+      for (let content of tabContents) {
+        content.classList.remove('active');
+      }
+
+      const tabButtons = document.getElementsByClassName('tab-button');
+      for (let button of tabButtons) {
+        button.classList.remove('active');
+      }
+
+      document.getElementById(tabName).classList.add('active');
+      event.currentTarget.classList.add('active');
+
+      if (tabName === 'percentageSplit') {
+        initializePercentageSplit();
+      } else if (tabName === 'unequalSplit') {
+        initializeUnequalSplit();
+      }
+    }
+
+    function initializePercentageSplit() {
+      const selectedPeople = getSelectedPeople();
+      if (selectedPeople.length === 0) {
+        alert("Please add at least one group!");
+        return;
+      }
+
+      const container = document.getElementById("percentageShares");
+      container.innerHTML = "";
+
+      selectedPeople.forEach(person => {
+        container.innerHTML += `
+          <div class="share-input">
+            <input type="number" id="percentage${person.id}" placeholder="Percentage for ${person.name}" min="0" max="100">
+            <span>%</span>
+          </div>`;
+      });
+    }
+
+    function initializeUnequalSplit() {
+      const selectedPeople = getSelectedPeople();
+      if (selectedPeople.length === 0) {
+        alert("Please add at least one group!");
+        return;
+      }
+
+      const container = document.getElementById("unequalShares");
+      container.innerHTML = "";
+
+      selectedPeople.forEach(person => {
+        container.innerHTML += `
+          <div class="share-input">
+            <input type="number" id="share${person.id}" placeholder="Amount for ${person.name}">
+          </div>`;
+      });
+    }
+
+    function splitAmount() {
+      const amount = parseFloat(document.getElementById("amount").value);
+      const selectedPeople = getSelectedPeople();
+      const resultDiv = document.getElementById("result");
+
+      if (isNaN(amount) || selectedPeople.length === 0) {
+        resultDiv.innerHTML = "<p style='color: red;'>Please enter valid amount and add at least one group!</p>";
+        return;
+      }
+
+      const splitAmount = (amount / selectedPeople.length).toFixed(2);
+      let result = "<p>Equal split:</p>";
+      selectedPeople.forEach(person => {
+        result += `<p>${person.name}: <strong>₹${splitAmount}</strong></p>`;
+      });
+      resultDiv.innerHTML = result;
+    }
+
+    function calculatePercentageSplit() {
+      const amount = parseFloat(document.getElementById("amount").value);
+      const selectedPeople = getSelectedPeople();
+      const resultDiv = document.getElementById("result");
+
+      if (isNaN(amount) || amount <= 0) {
+        resultDiv.innerHTML = "<p style='color: red;'>Please enter a valid amount!</p>";
+        return;
+      }
+
+      let totalPercentage = 0;
+      const shares = [];
+
+      selectedPeople.forEach(person => {
+        const percentage = parseFloat(document.getElementById(`percentage${person.id}`).value);
+        if (isNaN(percentage) || percentage < 0) {
+          resultDiv.innerHTML = "<p style='color: red;'>Please enter valid percentages!</p>";
+          return;
+        }
+        totalPercentage += percentage;
+        shares.push({ 
+          name: person.name, 
+          amount: (amount * percentage / 100).toFixed(2) 
+        });
+      });
+
+      if (Math.abs(totalPercentage - 100) > 0.01) {
+        resultDiv.innerHTML = "<p style='color: red;'>Percentages must sum to 100!</p>";
+        return;
+      }
+
+      let result = "<p>Split by percentage:</p>";
+      shares.forEach(share => {
+        result += `<p>${share.name}: <strong>₹${share.amount}</strong></p>`;
+      });
+      resultDiv.innerHTML = result;
+    }
+
+    function calculateUnequalSplit() {
+      const amount = parseFloat(document.getElementById("amount").value);
+      const selectedPeople = getSelectedPeople();
+      const resultDiv = document.getElementById("result");
+
+      if (isNaN(amount) || amount <= 0) {
+        resultDiv.innerHTML = "<p style='color: red;'>Please enter a valid amount!</p>";
+        return;
+      }
+
+      let totalShares = 0;
+      const shares = [];
+
+      selectedPeople.forEach(person => {
+        const share = parseFloat(document.getElementById(`share${person.id}`).value);
+        if (isNaN(share) || share < 0) {
+          resultDiv.innerHTML = "<p style='color: red;'>Please enter valid amounts!</p>";
+          return;
+        }
+        totalShares += share;
+        shares.push({ 
+          name: person.name, 
+          amount: share.toFixed(2) 
+        });
+      });
+
+      if (Math.abs(totalShares - amount) > 0.01) {
+        resultDiv.innerHTML = "<p style='color: red;'>Sum of shares must equal total amount!</p>";
+        return;
+      }
+
+      let result = "<p>Unequal split:</p>";
+      shares.forEach(share => {
+        result += `<p>${share.name}: <strong>₹${share.amount}</strong></p>`;
+      });
+      resultDiv.innerHTML = result;
+    }
+  </script>
+</body>
+</html>

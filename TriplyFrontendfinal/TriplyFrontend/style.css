@@ -1,0 +1,21 @@
+/* *{
+   // margin-left: 100px;
+} */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Ensures content stays on the left */
+    padding: 10px; /* Optional: Adds spacing around the header */
+}
+
+header .logo img {
+    width: 100px; /* Adjust the size of the logo */
+    height: auto; /* Maintain the aspect ratio */
+    margin-left: 100px;
+    margin-right: 15px; /* Space between the logo and the text */
+}
+
+header h1 {
+    margin: 0; /* Removes any default margin from the heading */
+    font-size: 48px; /* Adjust the font size as needed */
+}

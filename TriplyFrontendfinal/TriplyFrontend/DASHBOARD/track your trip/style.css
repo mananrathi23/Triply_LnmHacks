@@ -1,0 +1,80 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+}
+
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+/* Top Bar Styles */
+.topbar {
+    background-color: #3498db;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    width: 100%;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.topbar h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+/* Trip Details Section */
+.trip-details {
+    background-color: white;
+    padding: 20px;
+    max-width: 800px;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.trip-details h2 {
+    color: #3498db;
+    margin-bottom: 20px;
+}
+
+/* Table Styles */
+.trip-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.trip-table th, .trip-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.trip-table th {
+    background-color: #3498db;
+    color: white;
+    font-weight: bold;
+}
+
+.trip-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.trip-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.trip-table td {
+    color: #555;
+}

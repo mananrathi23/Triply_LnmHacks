@@ -23,3 +23,6 @@ Planning trips with friends should be fun, not stressful. Meet Triply – the al
 - HTML, CSS, JavaScript for UI (frontend)
 - Java for Backend (version jbr 17)
 - PostgreSQL for Database Management
+
+How to Accessing the Triply Platform 
+Head over to TriplyFrotendfinal/TriplyFrontend/lgin.html
